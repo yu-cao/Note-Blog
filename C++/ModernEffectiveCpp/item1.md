@@ -161,6 +161,7 @@ void f2(T& param);//在f2中，参数按引用传递
 f1(someFunc);//param被推导成函数指针，类型为void(*)(int, double)
 f2(someFunc);//param被推导成函数指针，类型为void(&)(int, double)
 ```
+
 <hr>
 
 <h2>综上，本条款我们要记住以下内容：</h2>
