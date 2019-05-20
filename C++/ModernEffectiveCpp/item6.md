@@ -23,3 +23,10 @@ processWidget(w, highPriority);//配合优先级处理w
 
 这时候，代码崩溃就在一线之间，这与`std::vector<bool>::reference`如何实现相关。一种实现是：这样的对象包含一个指向包含bit引用的的机器word指针，在word上进行偏移。这时调用`features`会返回一个临时的`std::vector<bool>`对象，这个对象是匿名的，我们在这里称其为`temp`，调用`operator[]`返回的`std::vector<bool>::reference`返回一个由`temp`管理的一个指向一个包含bits的数据结构的指针，在word上偏移5个bit。**而`auto`推导的类型也是`std::vector<bool>::reference`，这里发生的是直接的拷贝而没有任何隐式转换，也就是说`highPriority`的值是：`temp`中包含一个指向word的指针，加上偏移5个bit。但是`temp`作为返回值的右值在该句结束后销毁，此时自然而然`highPriority`内含了一个野指针，带来了未定义行为**
 
+这就是一个代理类：某个类的存在是为了模拟和对外行为和另外一个类保持一致。**一个通用法则：“不可见”的代理类不能与`auto`配合使用。**因为这些代理类常常被设计为生命周期为单行语句，超过时被回收，导致未定义行为。
+
+这时，我们的修复方法是使用当我们需要时，使用转换的策略
+
+```cpp
+auto highPriority = static_cast<bool>(features(w)[5]);
+```
