@@ -114,6 +114,8 @@ class Stack
 };
 ```
 
+###友元函数
+
 但是我们尝试声明一个友元函数并且给出定义，事情就会变得复杂。我们要有以下2个观点：
 
 1、我们可以隐式声明一个新的函数模板，它必须使用不同的模板参数。再次使用T或跳过模板参数声明都不会起作用（内部T隐藏外部T或我们在命名空间范围内声明非模板函数）：
@@ -159,7 +161,7 @@ class Stack
 	std::cout << ps << '\n';//ERROR: operator<< not supported for element type
 ```
 
-特例化（Specializtion）
+###特例化（Specializtion）
 
 可以为一些模板参数来特例化一个类的模板。与函数模板的重载类似，特例化的类模板允许优化某些类型的实现，或者修复某些类型的错误行为以用于类模板的实例化。 但是，如果特例化类模板，则还必须特例化所有成员函数。 虽然可以特例化类模板的单个成员函数，但是一旦完成，就不能再特例化专用成员所属的整个类模板实例。特例化：
 
@@ -173,7 +175,7 @@ class Stack<std::string>
 
 然后后面所有T的地方都变成特例化的描述，而且特例化可以用与原来截然不同的数据结构组织方式（比如原来是vector，你可以变成deque）
 
-偏特化（Partial Specialization）
+###偏特化（Partial Specialization）
 
 类模板可以**部分专用**。针对特定情况提供特殊实现，但仍必须由用户定义某些模板参数：
 
@@ -254,7 +256,7 @@ template<typename T, typename Cont>
 void Stack<T, Cont>::push(T const& elem){...}
 ```
 
-编辑器推导类模板参数（C++17）
+###编辑器推导类模板参数（C++17）
 
 C++17支持了类模板参数推导，如果我们从构造函数继承，允许我们跳过显式地给出模板参数，而使用编译器推导的结果：
 
@@ -318,7 +320,7 @@ Stack stringStack{"bottom"};        // OK: Stack<std::string> deduced si
 Stack stringStack = "bottom"; // Stack<std::string> deduced, but still not valid
 ```
 
-模板化的聚类
+###模板化的聚类
 
 聚类（没有用户提供的，显式的或继承的构造函数的类/结构，没有私有或受保护的非静态数据成员，没有虚函数，也没有虚、私有或受保护的基类）也可以是模板。 例如：
 
