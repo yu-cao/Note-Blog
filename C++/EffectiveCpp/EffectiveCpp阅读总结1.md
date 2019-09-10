@@ -6,7 +6,7 @@
 
 <hr>
 
-###2、以`const`，`enum`，`inline`来替换`#define`
+### 2、以`const`，`enum`，`inline`来替换`#define`
 
 **宁愿用编译器而不要使用预处理器**，用一个常量来替换宏。此外define不能提供任何的封装性，而const等可以被封装。
 
